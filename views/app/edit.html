@@ -1,0 +1,22 @@
+<h3>Edit Attribute Set</h3>
+
+<div ng-if="attributeSet === false" class="updated">
+    <p>Loading attributes in the set</p>
+</div>
+
+<div id="post-body-content" ng-if="attributeSet !== false" style="position: relative;">
+
+    <input placeholder="Attribute Set Name" class="attribute_set_title" ng-model="attributeSet.name" />
+
+    <div class="attributes_container">
+        <select class="attribute_selector" ng-repeat="(parentIndex, attribute) in attributeSet.attributes track by parentIndex" ng-model="attributeSet.attributes[$index]">
+            <option ng-repeat="attributeEntity in productsAttributes" value="{{ attributeEntity.attribute_name }}" ng-selected="attributeSet.attributes[parentIndex] == attributeEntity.attribute_name">
+            {{ attributeEntity.attribute_label }}
+            </option>
+        </select>
+    </div>
+    
+    <button class="button button" ng-click="addAttribute()">Add Attribute</button>
+    <button class="button button-primary" ng-click="updateAttributeSet()">Save</button>
+    <a class="button button" href="#/">Cancel</a>
+</div>

@@ -1,0 +1,1 @@
+Adds attribute sets functionality to WooCommerce!

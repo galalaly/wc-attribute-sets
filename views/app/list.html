@@ -1,0 +1,53 @@
+<h3>
+    Attribute Sets - Administration
+    <a href="#/AttributeSets/New" class="add-new-h2">Add Attribute Set</a>
+</h3>
+<span class="description">
+    Manage the attribute sets from below. This includes adding, editing, and removing attribute sets. To actually use the attribute sets, go to any product, click on the Attributes tab, and you will find a new selectbox available that adds attributes in the attribute set to the product.
+</span>
+<br/><br/> <!-- Some space -->
+<div ng-if="attributeSetsList === false" class="updated">
+    <p>Loading</p>
+</div>
+<div>
+    <table ng-if="attributeSetsList !== false" class="wp-list-table widefat fixed striped posts">
+        <thead>
+            <tr>
+                <th scope="col" id="coupon_code" class="manage-column" style="">Set Name</th>
+            </tr>
+        </thead>
+
+        <tbody id="the-list">
+            <tr ng-if="attributeSetsList.length <= 0" class="no-items">
+                <td class="colspanchange" colspan="1">
+                    No Attribute Sets found. <a href="#/AttributeSets/New">Create a new one?</a>
+                </td>
+            </tr>
+            <tr ng-repeat="attributeSet in attributeSetsList track by $index">
+                <td>
+                    <strong>
+                        <a href="#/AttributeSets/Edit/{{ attributeSet.key }}">{{ attributeSet.name }}</a>
+                    </strong>
+                    <div class="row-actions">
+                        <span class="edit">
+                            <a href="#/AttributeSets/Edit/{{ attributeSet.key }}" title="Edit this item">
+                                Edit
+                            </a> | 
+                            </span>
+                            <span class="trash">
+                                <a class="submitdelete" title="Move this item to the Trash" href="#/AttributeSets/Delete/{{ attributeSet.key }}">
+                                    Trash
+                                </a>
+                            </span>
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+
+        <tfoot>
+            <tr>
+                <th scope="col" class="manage-column column-coupon_code" style="">Set Name</th>
+            </tr>
+        </tfoot>
+    </table>
+</div>

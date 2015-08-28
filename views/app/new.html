@@ -1,0 +1,16 @@
+<h3>Add New Attribute Set</h3>
+
+<div id="post-body-content" style="position: relative;">
+
+    <input placeholder="Attribute Set Name" class="attribute_set_title" ng-model="attributeSet.name" />
+
+    <div class="attributes_container">
+        <select class="attribute_selector" ng-repeat="attribute in attributeSet.attributes track by $index" ng-model="attributeSet.attributes[$index]">
+            <option ng-repeat="attributeEntity in productsAttributes" value="{{ attributeEntity.attribute_name }}">{{ attributeEntity.attribute_label }}
+        </select>
+    </div>
+    
+    <button class="button button" ng-click="addAttribute()">Add Attribute</button>
+    <button class="button button-primary" ng-click="saveAttributeSet()">Save</button>
+    <a class="button button" href="#/">Cancel</a>
+</div>
