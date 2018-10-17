@@ -3,9 +3,10 @@ jQuery( function( $ ){
   function wcAttributeSetsAddAttributeSet( attributeSet, size, obj )
   {
     data = {
+	  'security': woocommerce_admin_meta_boxes.add_attribute_nonce,
+	  'i' : size, 
       'action' : 'wc_attribute_sets_add_to_product',
-      'key' : attributeSet,
-      'i' : size
+      'key' : attributeSet
     };
 
     var $wrapper = $( obj ).closest( '#product_attributes' ).find( '.product_attributes' );
@@ -22,12 +23,13 @@ jQuery( function( $ ){
       $('body').trigger( 'woocommerce_added_attribute' );
     } );
   }
+  
 
   $(document).ready( function(){
 
     $( 'body' ).on( 'click', 'button.add_attribute_set', function(){
       attributeSet = $('select#attribute_set').val();
-      size = $( '.product_attributes .woocommerce_attribute' ).size();
+      size = $( '.product_attributes .woocommerce_attribute' ).length;
       wcAttributeSetsAddAttributeSet(attributeSet, size, this);
     } );
 

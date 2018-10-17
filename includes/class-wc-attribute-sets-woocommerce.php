@@ -44,43 +44,37 @@ class WCAttributeSetsWooCommerce extends WCAttributeSets
 
     global $wc_product_attributes;
 
-    $attributeSetKey = $_POST[ 'key' ];
-
+	check_ajax_referer( 'add-attribute', 'security' );
+    
+	$attributeSetKey = $_POST[ 'key' ];
     $db = new WCAttributeSetsDb;
-
     $attributeSet = $db->get($attributeSetKey);
-
     if( empty( $attributeSet->attributes ) )
       die();
-
+	
+	
+	$i=absint( $_POST['i'] );
     foreach( $attributeSet->attributes as $attributeKey )
-    {
-      $thepostid     = 0;
-      $taxonomy      = wc_attribute_taxonomy_name($attributeKey);
-      $i             = absint( $_POST['i'] );
-      $position      = 0;
-      $metabox_class = array();
-      $attribute     = array(
-        'name'         => $taxonomy,
-        'value'        => '',
-        'is_visible'   => apply_filters( 'woocommerce_attribute_default_visibility', 1 ),
-        'is_variation' => 0,
-        'is_taxonomy'  => $taxonomy ? 1 : 0
-      );
+    {		
+		$taxonomy      = wc_attribute_taxonomy_name($attributeKey);  
+		$metabox_class = array();
+		$attribute     = new WC_Product_Attribute();
+		$attribute->set_id( wc_attribute_taxonomy_id_by_name( $taxonomy ) );
+		$attribute->set_name( $taxonomy );
+		$attribute->set_visible( apply_filters( 'woocommerce_attribute_default_visibility', 1 ) );
+		$attribute->set_variation( apply_filters( 'woocommerce_attribute_default_is_variation', 0 ) );
 
-      if ( $taxonomy ) {
-        $attribute_taxonomy = $wc_product_attributes[ $taxonomy ];
-        $metabox_class[]    = 'taxonomy';
-        $metabox_class[]    = $taxonomy;
-        $attribute_label    = wc_attribute_label( $taxonomy );
-      } else {
-        $attribute_label = '';
-      }
-
-      include( WC()->plugin_path() . '/includes/admin/meta-boxes/views/html-product-attribute.php' );
+		if ( $attribute->is_taxonomy() ) {
+		  $metabox_class[] = 'taxonomy';
+		  $metabox_class[] = $attribute->get_name();
+		}
+		
+		if($attribute->get_name() == "pa_") continue;
+		
+		include( WC()->plugin_path() . '/includes/admin/meta-boxes/views/html-product-attribute.php' );
+		$i++;
     }
-
-    die();
+    wp_die();
 
   }
 }
